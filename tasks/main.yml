@@ -1,0 +1,24 @@
+---
+# tasks file for install_cloudinit
+- name: cloudinit - Installing cloudinit on Centos8
+  yum: 
+    name: '{{ item }}'
+    state: latest
+  loop:
+    - cloud-init
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '8'
+
+- name: Controller - Download kubernetes binary files
+  get_url:
+    url: 'https://copr.fedorainfracloud.org/coprs/g/cloud-init/el-stable/repo/epel-7/group_cloud-init-el-stable-epel-7.repo'
+    dest: /etc/yum.repos.d/group_cloud-init-el-stable-epel-7.repo
+    mode: '0644'
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: cloudinit - Installing cloudinit on Centos7
+  yum: 
+    name: '{{ item }}'
+    state: latest
+  loop:
+    - cloud-init
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
